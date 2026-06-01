@@ -1,0 +1,97 @@
+#      Phase #1  intializing a repository
+
+
+mkdir my-devops-project
+cd my-devops-project
+git init
+
+echo "# DevOps Project 2" > README.md
+echo "This repository serves as the foundational version control setup for future CI/CD pipelines." >> README.md
+
+git add README.md
+git commit -m "Create foundational README file"
+git branch -M main
+
+gh auth login
+
+gh repo create devops-project-2 --public --source=. --remote=origin --push
+
+
+
+
+
+
+
+#      Phase #2   Commit 2: The .gitignore File
+
+echo ".env" > .gitignore
+echo "__pycache__/" >> .gitignore
+
+git add .gitignore
+git commit -m "Add .gitignore to protect secrets and ignore cache"
+
+
+
+
+
+
+
+#      Phase #3    Commit 3: The Application Code
+
+echo "print('DevOps CI/CD Pipeline Active')" > app.py
+
+git add app.py
+git commit -m "Create initial Python application script"
+
+
+
+
+
+
+#      Phase #4    Commit 4: The Dockerfile 
+
+@'
+FROM python:3.9-slim
+WORKDIR /app
+COPY app.py .
+CMD ["python", "app.py"]
+'@ | Out-File -FilePath Dockerfile -Encoding utf8
+
+git add Dockerfile
+git commit -m "Add Dockerfile for application containerization"
+
+
+
+
+
+#      Phase #5  Commit 5: The GitHub Actions Pipeline
+
+
+New-Item -ItemType Directory -Force -Path .github\workflows
+
+@'
+name: Docker CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Build Docker Image
+      run: docker build -t my-devops-app .
+'@ | Out-File -FilePath .github\workflows\ci.yml -Encoding utf8
+
+git add .github/
+git commit -m "Configure GitHub Actions CI pipeline for Docker"
+
+
+
+#       Phase#6  Final: Push
+
+git push

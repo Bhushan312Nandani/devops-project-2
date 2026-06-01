@@ -1,0 +1,7 @@
+﻿@'
+# Requirements to run this project:
+
+- Must have a GitHub account.
+- Must have Docker.
+- Must have GitHub CLI installed (Run: winget install --id GitHub.cli)
+'@ | Out-File -FilePath requirements.txt -Encoding utf8
