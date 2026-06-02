@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: my-devops-project/my-devops-project
+        working-directory: my-devops-project
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
